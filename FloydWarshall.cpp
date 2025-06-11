@@ -112,8 +112,6 @@ void PrintMap() {
 }
 
 int main() {
-    auto start = std::chrono::high_resolution_clock::now();
-    
     Pair src = {1, 1}, dst = {5, 5};
     int row = 8, col = 8;
     
@@ -133,14 +131,16 @@ int main() {
             zmap[i][j] = grid[i][j] + '0';
         }
     }
+
+    auto start = std::chrono::high_resolution_clock::now();
     
     if (floydWarshallSearch(grid, src, dst)) PrintMap();
-    else printf("실패.");
+    else printf("Failed to find path.");
 
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> execution_time = end - start;
+    std::chrono::duration<double, std::milli> execution_time = end - start;
     
-    printf("\nFloyd-Warshall 알고리즘 실행 시간: %.6f 초\n", execution_time.count());
+    printf("\nFloyd-Warshall Algorithm Execution Time: %.3f milliseconds\n", execution_time.count());
     
     int i = 0;
     while (i < pIdx) {
