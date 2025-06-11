@@ -145,6 +145,7 @@ bool dijkstraSearch(int map[8][8], Pair src, Pair dst) {
 }
 
 void PrintMap() {
+    printf("\nPath Map:\n");
     for (int i = 0; i < ROW; ++i) {
         for (int j = 0; j < COL; ++j) {
             printf("%c", zmap[i][j]);
@@ -153,8 +154,15 @@ void PrintMap() {
     }
 }
 
+void PrintPath() {
+    printf("\nPath Coordinates:\n");
+    for (int i = 0; i < pIdx; i++) {
+        printf("(%d, %d)\n", path[i].first, path[i].second);
+    }
+}
+
 int main() {
-    Pair src = {1, 1}, dst = {5, 5};
+    Pair src = {1, 0}, dst = {6, 7};
     int row = 8, col = 8;
     
     ROW = row;
@@ -175,21 +183,20 @@ int main() {
     }
 
     auto start = std::chrono::high_resolution_clock::now();
-    
-    if (dijkstraSearch(grid, src, dst)) PrintMap();
-    else printf("Failed to find path.");
+
+    bool isProcessed = dijkstraSearch(grid, src, dst);
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> execution_time = end - start;
-    
-    printf("\nDijkstra Algorithm Execution Time: %.3f milliseconds\n", execution_time.count());
-    
-    int i = 0;
-    while (i < pIdx) {
-        Pair p = path[i];
-        printf("( %d, %d )\n", p.first, p.second);
-        i++;
+
+    if (isProcessed) {
+        PrintMap();
+        PrintPath();
+    } else {
+        printf("Failed to find path.\n");
     }
+
+    printf("\nDijkstra Algorithm Execution Time: %.3f milliseconds\n", execution_time.count());
     
     return 0;
 } 
